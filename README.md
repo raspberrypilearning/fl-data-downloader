@@ -55,7 +55,7 @@ See the examples below for help on using the tool for typical use cases.
 
 ## Examples
 
-### Download all datasets for a course.
+### Download all datasets for all runs of a course.
 
 To download all the datasets for all the runs of the `programming-101` course:
 
@@ -63,15 +63,15 @@ To download all the datasets for all the runs of the `programming-101` course:
 fl-data-dl programming-101
 ```
 
-### Download a dataset for multiple courses
+### Download all datasets for multiple courses
 
-The datasets for multiple courses can be combined by specifying a list of course names:
+Datasets for multiple courses can be combined by specifying a list of course names:
 
 ```
 fl-data-dl programming-101 how-computers-work
 ```
 
-### Specify a dataset for a course
+### Download one specific dataset for a course
 
 If you only need a specific dataset you can specify it using the `-d` option:
 
@@ -79,15 +79,15 @@ If you only need a specific dataset you can specify it using the `-d` option:
 fl-data-dl programming-101 -d enrolments
 ```
 
-### Get multiple datasets
+### Specifying multiple datasets
 
 Multiple datasets can also be provided:
 
 ```
-fl-data-dl programming-101 enrolments campaigns
+fl-data-dl programming-101 -d enrolments campaigns
 ```
 
-### Change the output directory 
+### Changing the output directory 
 
 By default the data is saved to the current directory. You can change this using the `-o` option:
 
@@ -103,4 +103,4 @@ You have to enter you FutureLearn username and password each time data is downlo
 fl-data-dl programming-101 --login
 ```
 
-**Note:** the configuration data is stored in `~/.fl-data-dl` (Linux, macOS) or `%USERPROFILE%\.fl-data-dl` (Windows) in plain text. If you are not confident your computer is secure you should not use this option.
+**Note:** the login configuration data is stored in `~/.fl-data-dl` (Linux, macOS) or `%USERPROFILE%\.fl-data-dl` (Windows) in plain text. If you are not confident your computer is secure you should not use this option.
