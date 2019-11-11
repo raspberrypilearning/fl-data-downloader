@@ -7,7 +7,7 @@ It will download the data for all runs of a courses, combining them together int
 ## Install
 
 ```bash
-git clone https://github.com/raspberrypilearning/fl-data-dl
+git clone https://github.com/raspberrypilearning/fl-data-downloader
 cd fl-data-dl
 pip3 install .
 ```
