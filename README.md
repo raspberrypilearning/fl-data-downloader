@@ -28,7 +28,7 @@ If you are installing on linux you may need to use `sudo` when running `pip3` in
 sudo pip3 install .
 ```
 
-If you are using Windows and you receive a `pip3 is not recognised` error, have a look at this [guide](https://projects.raspberrypi.org/en/projects/using-pip-on-windows).
+If you are using Windows and you receive a `pip3 is not recognised` error, have a look at this guide to [Using pip on Windows](https://projects.raspberrypi.org/en/projects/using-pip-on-windows).
 
 
 ## Usage
