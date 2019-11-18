@@ -1,16 +1,35 @@
 # FutureLearn Dataset Downloader
 
-A utility for downloading datasets for FutureLearn courses.
+A utility for downloading datasets for [FutureLearn](https://futurelearn.com) courses.
 
 It will download the data for all runs of a courses, combining them together into a single extract.
 
+## What you need?
+
+To use the dataset downloader utility you will need:
+- Access to the internet
+- [Python 3](https://www.python.org/downloads/) installed on your computer (be sure to click *Add Python to the PATH* when installing on Windows)
+- [git](https://git-scm.com/downloads) installed on your computer
+- a FutureLearn account which can access your courses dataset files
+
 ## Install
+
+Open a command prompt or terminal and enter these commands:
 
 ```bash
 git clone https://github.com/raspberrypilearning/fl-data-downloader
-cd fl-data-dl
+cd fl-data-downloader
 pip3 install .
 ```
+
+If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utiltiy.
+
+```
+sudo pip3 install .
+```
+
+If you are using Windows and you receive a `pip3 is not recognised` error, have a look at this [guide](https://projects.raspberrypi.org/en/projects/using-pip-on-windows).
+
 
 ## Usage
 
@@ -18,7 +37,7 @@ The `fl-data-dl` command line tool can be used to download data for FutureLearn 
 
 Each dataset is downloaded to a seperate file with the name `[yyyy-mm-dd-hh-mm-ss]-[dataset].csv`
 
-Using the `-h` will display the commands usage instructions.
+Using the `-h` option will display the `fl-data-dl` command usage instructions.
 
 ```
 fl-data-dl -h
