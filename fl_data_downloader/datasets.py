@@ -100,8 +100,14 @@ def get_course_dataset(b, course, dataset):
     return dataset_df
 
 def download_data(courses=None, datasets=None, directory="."):
+    """
+    Downloads dataset data for all runs of a course and saves to a CSV file.
+
+    Returns a list of file paths.
+    """
     
     b = login()
+    files = []
 
     # if a dataset is not provided, download for all datasets
     if datasets is None:
@@ -128,6 +134,7 @@ def download_data(courses=None, datasets=None, directory="."):
                 try:
                     dataset_df = get_course_dataset(b, course, dataset)
                     dataset_df.to_csv(file_path, mode="a", header=first_course)
+                    files.append(file_path)
 
                     first_course = False
 
@@ -135,3 +142,5 @@ def download_data(courses=None, datasets=None, directory="."):
                     print("Error: dataset [{}] was not found for course [{}].".format(dataset, course))
         else:
             raise DatasetNotKnownException()
+
+    return files

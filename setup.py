@@ -18,7 +18,6 @@ __author_email__ = 'martin.ohanlon@raspberrypi.org'
 __url__ = 'https://github.com/raspberrypilearning/fl_data_downloader'
 __requires__ = ["MechanicalSoup", "pandas"]
 
-print("running")
 setup(
     name=__name__,
     version = __version__,
@@ -30,6 +29,6 @@ setup(
     install_requires = __requires__,
     entry_points={
         'console_scripts': [
-        'fl-data-dl = fl_data_downloader:main'
+        'fl-data-dl = fl_data_downloader:fl_data_dl'
         ]},
     zip_safe=False)

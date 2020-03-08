@@ -19,7 +19,8 @@ from .courses import (
     NeedToLoginException
     )
 
-def main():
+def fl_data_dl():
+
     from argparse import ArgumentParser
 
     parser = ArgumentParser(description="FutureLearn Data Downloader")
