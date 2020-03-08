@@ -22,7 +22,10 @@ def get_courses(b, organisation="raspberry-pi"):
             full_name = re.search(b'">(.+?)</a>',each[0]).group(0).decode("utf-8")[:-4][2:]
             unique_courses[url_name] = full_name
 
-    return pd.DataFrame(unique_courses.items(), columns=["course", "full_name"])
+    courses_df = pd.DataFrame(unique_courses.items(), columns=["course", "full_name"])
+    courses_df.set_index("course", inplace=True)
+
+    return courses_df
 
 def get_runs(b, course=None, organisation="raspberry-pi"):
     url = "https://www.futurelearn.com/admin/organisations/{}/runs".format(organisation)
@@ -46,8 +49,12 @@ def get_runs(b, course=None, organisation="raspberry-pi"):
             # get the steps as well ?!
             #steps = get_run_steps(b, url_name, run_num)
             #course_runs.append([url_name, full_name, run_num, start_date, status, len(steps.index)])
-            
-    return pd.DataFrame(course_runs, columns=["course", "full_name", "run_num", "start_date", "status", "no_of_steps"])
+
+    # course_runs_df = pd.DataFrame(course_runs, columns=["course", "full_name", "run_num", "start_date", "status", "no_of_steps"])
+    course_runs_df = pd.DataFrame(course_runs, columns=["course", "full_name", "run_num", "start_date", "status"])
+    course_runs_df.set_index("course", "run_num", inplace=True)
+
+    return course_runs_df
 
 def get_run_steps(b, course, run):
 

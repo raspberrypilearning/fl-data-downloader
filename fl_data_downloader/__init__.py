@@ -2,9 +2,7 @@ from .datasets import (
     get_dataset, 
     get_course_dataset, 
     download_data, 
-    DATASETS, 
-    DatasetNotKnownException, 
-    DatasetNotFoundForCourse
+    DATASETS
     )
 
 from .credentials import (
@@ -15,8 +13,13 @@ from .credentials import (
 from .courses import (
     get_courses, 
     get_runs, 
-    get_run_steps, 
-    NeedToLoginException
+    get_run_steps
+    )
+
+from .exceptions import (
+    NeedToLoginException, 
+    DatasetNotKnownException, 
+    DatasetNotFoundForCourse
     )
 
 def fl_data_dl():

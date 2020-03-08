@@ -8,13 +8,9 @@ from datetime import datetime
 from io import StringIO
 from collections import namedtuple
 
-from .credentials import login, NeedToLoginException
+from .credentials import login
+from .exceptions import NeedToLoginException, DatasetNotKnownException, DatasetNotFoundForCourse
 
-class DatasetNotKnownException(Exception):
-    pass
-
-class DatasetNotFoundForCourse(Exception):
-    pass
 
 URL = "https://www.futurelearn.com/admin/courses/{}/{}/stats-dashboard/data/{}"
 DATASETS = [

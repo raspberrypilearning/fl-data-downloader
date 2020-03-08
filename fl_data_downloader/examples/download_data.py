@@ -1,7 +1,9 @@
 from fl_data_downloader import download_data
 
 # single course, all datasets
-download_data(["programming-101"])
+# download_data(["programming-101"])
+download_data(["programming-with-guis"])
+
 
 # multiple courses, all datasets
 # download_data(["programming-101", "code-club"])

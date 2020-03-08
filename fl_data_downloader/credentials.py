@@ -4,11 +4,9 @@ import mechanicalsoup
 
 from getpass import getpass
 
-CONFIG_PATH = os.path.join(os.path.expanduser("~"), ".fl-data-dl")
+from .exceptions import NeedToLoginException
 
-# exceptions
-class NeedToLoginException(Exception):
-    pass
+CONFIG_PATH = os.path.join(os.path.expanduser("~"), ".fl-data-dl")
 
 def get_credentials():
     # are there credentials in the config file?
