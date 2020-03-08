@@ -41,10 +41,12 @@ def get_runs(b, course=None, organisation="raspberry-pi"):
             print("Run - {}/{}".format(url_name, run_num))
             start_date = datetime.strptime(re.search(b"'(.+?)'",each[8]).group(0)[1:][:-1].decode("utf-8"),'%Y-%m-%d').date()
             status = re.search(b'flag--(.+?)>(.+?)<',each[5]).group(0)[:-1].decode("utf-8").split(">")[1]
-            steps = get_run_steps(b, url_name, run_num)
 
-            course_runs.append([url_name, full_name, run_num, start_date, status, len(steps.index)])
-
+            course_runs.append([url_name, full_name, run_num, start_date, status])
+            # get the steps as well ?!
+            #steps = get_run_steps(b, url_name, run_num)
+            #course_runs.append([url_name, full_name, run_num, start_date, status, len(steps.index)])
+            
     return pd.DataFrame(course_runs, columns=["course", "full_name", "run_num", "start_date", "status", "no_of_steps"])
 
 def get_run_steps(b, course, run):

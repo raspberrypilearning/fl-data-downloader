@@ -5,6 +5,8 @@ import mechanicalsoup
 import pandas as pd
 
 from datetime import datetime
+from io import StringIO
+from collections import namedtuple
 
 from .credentials import login, NeedToLoginException
 
@@ -32,98 +34,59 @@ DATASETS = [
     "weekly_sentiment_survey_responses"
 ]
 
+DATASET_KEYS = {
+    "archetype_survey_responses": ["course", "run", "id"],
+    "comments": ["course", "run", "id"],
+    "campaigns": ["course", "run", "utm_source", "utm_campaign", "utm_medium", "utm_term", "utm_content", "domain"],
+    "enrolments": ["course", "run", "learner_id"],
+    "leaving_survey_responses": ["course", "run", "id"],
+    "peer_review_assignments": ["course", "run", "id"],
+    "peer_review_reviews": ["course", "run", "id"],
+    "post_course_survey_data": ["course", "run", "id"],
+    "post_course_survey_free_text": ["course", "run"],
+    "question_response": ["course", "run"],
+    "step_activity": ["course", "run", "learner_id", "step"],
+    "team_members": ["course", "run", "id"],
+    "video_stats": ["course", "run", "step_position"],
+    "weekly_sentiment_survey_responses": ["course", "run", "id"],
+    }
+
 def get_dataset(b, course, run, dataset):
+    """
+    Gets a dataset for a specific run of a course
+    """
 
     # get the campaign data file
     url = URL.format(course, run, dataset)
     data = b.open(url)
     data = data.content.decode("utf-8").strip()
 
+    # has a html page been returned? if so, you need to login
     if data[0].find("<!DOCTYPE html>") > -1:
         raise NeedToLoginException()
     
-    dataset = pd.read_csv(data)
-    print(dataset)
+    dataset_df = pd.read_csv(StringIO(data))
 
-    # open the file as a csv
-    # datafilecsv = csv.reader(data.content.decode("utf-8").strip().split("\n"))
+    # add the course and run columns
+    dataset_df.insert(0, "course", course)
+    dataset_df.insert(1, "run", run)
 
-    # # get the first row
-    # header_row = next(datafilecsv)
+    # set the index
+    dataset_df.set_index(DATASET_KEYS[dataset], inplace=True)
+
+    return dataset_df
     
-    # # has a html page been returned? if so, you need to login
-    # if header_row[0].find("<!DOCTYPE html>") > -1:
-    #     raise NeedToLoginException()
-
-    # # append the course name and run number to the file
-    # header_row.insert(0, "course")
-    # header_row.insert(1, "run")
-
-    # datasetrows = [header_row]
-    # #print(datafilerows[0])
-    
-    # for row in datafilecsv:
-    #     row.insert(0, course)
-    #     row.insert(1, str(run))
-    #     #print(row)
-    #     datasetrows.append(row)
-    
-    # return datasetrows
-
-def get_dataset_old(b, course, run, dataset):
-
-    # get the campaign data file
-    url = URL.format(course, run, dataset)
-    data = b.open(url)
-    
-    # open the file as a csv
-    datafilecsv = csv.reader(data.content.decode("utf-8").strip().split("\n"))
-
-    # get the first row
-    header_row = next(datafilecsv)
-    
-    # has a html page been returned? if so, you need to login
-    if header_row[0].find("<!DOCTYPE html>") > -1:
-        raise NeedToLoginException()
-
-    # append the course name and run number to the file
-    header_row.insert(0, "course")
-    header_row.insert(1, "run")
-
-    datasetrows = [header_row]
-    #print(datafilerows[0])
-    
-    for row in datafilecsv:
-        row.insert(0, course)
-        row.insert(1, str(run))
-        #print(row)
-        datasetrows.append(row)
-    
-    return datasetrows
-
-def download_course_dataset(b, file_path, course, dataset):
-
-    # only write the header if this is a new download file
-    write_header = True
-    if os.path.exists(file_path):
-        write_header = False
-
-    # download the data until there is no runs left to download
+def get_course_dataset(b, course, dataset):
+    """
+    Gets the dataset from all runs of a course
+    """
     run = 1
     while True:
         try:
-            datasetrows = get_dataset(b, course, run, dataset)
-
-            # write the data to a file
-            with open(file_path, "a", encoding='utf-8', newline="\n") as datafileoutput:
-                writer = csv.writer(datafileoutput)
-                
-                # only take the header if its the first run
-                startrow = 1
-                if write_header:
-                    startrow = 0
-                    write_header = False
-                writer.writerows(datasetrows[startrow:])
+            if run == 1:
+                dataset_df = get_dataset(b, course, run, dataset)
+            else:
+                dataset_df = dataset_df.append(get_dataset(b, course, run, dataset))
 
             print("- Run {}".format(run))
 
@@ -131,8 +94,10 @@ def download_course_dataset(b, file_path, course, dataset):
             if run == 1:
                 raise DatasetNotFoundForCourse
             break
-
+            
         run += 1
+    
+    return dataset_df
 
 def download_data(courses=None, datasets=None, directory="."):
     
@@ -156,11 +121,15 @@ def download_data(courses=None, datasets=None, directory="."):
                 os.remove(file_path)
 
             # download the dataset for each course
+            first_course = True
             for course in courses:
                 print("Course - {}".format(course))
                 
                 try:
-                    download_course_dataset(b, file_path, course, dataset)
+                    dataset_df = get_course_dataset(b, course, dataset)
+                    dataset_df.to_csv(file_path, mode="a", header=first_course)
+
+                    first_course = False
 
                 except DatasetNotFoundForCourse:
                     print("Error: dataset [{}] was not found for course [{}].".format(dataset, course))
