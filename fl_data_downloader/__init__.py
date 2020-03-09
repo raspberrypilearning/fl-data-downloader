@@ -1,6 +1,7 @@
 from .datasets import (
     get_dataset, 
-    get_course_dataset, 
+    get_dataset_for_course,
+    get_dataset_for_courses,
     download_data, 
     DATASETS
     )
@@ -13,7 +14,8 @@ from .credentials import (
 from .courses import (
     get_courses, 
     get_runs, 
-    get_run_steps
+    get_steps_for_run,
+    get_steps_for_courses
     )
 
 from .exceptions import (

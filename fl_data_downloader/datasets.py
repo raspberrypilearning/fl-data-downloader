@@ -50,7 +50,11 @@ DATASET_KEYS = {
 def get_dataset(b, course, run, dataset):
     """
     Gets a dataset for a specific run of a course
+
+    Returns a `pandas.DataFrame`.
     """
+
+    print("{}.{}.{}".format(dataset, course, run))
 
     # get the campaign data file
     url = URL.format(course, run, dataset)
@@ -67,14 +71,16 @@ def get_dataset(b, course, run, dataset):
     dataset_df.insert(0, "course", course)
     dataset_df.insert(1, "run", run)
 
-    # set the index
-    dataset_df.set_index(DATASET_KEYS[dataset], inplace=True)
+    # set and index of the keys?
+    # dataset_df.set_index(DATASET_KEYS[dataset], inplace=True)
 
     return dataset_df
     
-def get_course_dataset(b, course, dataset):
+def get_dataset_for_course(b, course, dataset):
     """
     Gets the dataset from all runs of a course
+
+    Returns a `pandas.DataFrame`.
     """
     run = 1
     while True:
@@ -82,9 +88,7 @@ def get_course_dataset(b, course, dataset):
             if run == 1:
                 dataset_df = get_dataset(b, course, run, dataset)
             else:
-                dataset_df = dataset_df.append(get_dataset(b, course, run, dataset))
-
-            print("- Run {}".format(run))
+                dataset_df = dataset_df.append(get_dataset(b, course, run, dataset), ignore_index=True)
 
         except mechanicalsoup.LinkNotFoundError:
             if run == 1:
@@ -95,13 +99,28 @@ def get_course_dataset(b, course, dataset):
     
     return dataset_df
 
-def download_data(courses=None, datasets=None, directory="."):
+def get_dataset_for_courses(b, courses, dataset):
+    """
+    Gets the dataset from all runs of multiple courses
+
+    Returns a `pandas.DataFrame`.
+    """
+    first_course = True
+    for course in courses:
+        if first_course:
+            dataset_df = get_dataset_for_course(b, course, dataset)
+            first_course = False
+        else:
+            dataset_df = dataset_df.append(get_dataset_for_course(b, course, dataset), ignore_index=True)
+    
+    return dataset_df
+
+def download_data(courses, datasets=None, directory="."):
     """
     Downloads dataset data for all runs of a course and saves to a CSV file.
 
     Returns a list of file paths.
     """
-    
     b = login()
     files = []
 
@@ -111,11 +130,9 @@ def download_data(courses=None, datasets=None, directory="."):
 
     for dataset in datasets:
         if dataset in DATASETS:
-            print("Dataset - {}".format(dataset))
-
             # create file path
             file_path = os.path.join(directory, "{}_{}.csv".format(datetime.now().strftime("%Y-%m-%d-%H-%M-%S"), dataset))
-            print("Filename - {}".format(file_path))
+            print("Filename: {}".format(file_path))
 
             # delete any old files - belt and braces!
             if os.path.exists(file_path):
@@ -125,10 +142,9 @@ def download_data(courses=None, datasets=None, directory="."):
             # download the dataset for each course
             first_course = True
             for course in courses:
-                print("Course - {}".format(course))
-                
+               
                 try:
-                    dataset_df = get_course_dataset(b, course, dataset)
+                    dataset_df = get_dataset_for_course(b, course, dataset)
                     dataset_df.to_csv(file_path, mode="a", header=first_course)
                     files.append(file_path)
 

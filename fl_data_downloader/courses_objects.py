@@ -28,13 +28,13 @@ class Courses:
             print("Run - {}/{}".format(url_name, run_num))
             start_date = datetime.strptime(re.search(b"'(.+?)'",each[8]).group(0)[1:][:-1].decode("utf-8"),'%Y-%m-%d').date()
             status = re.search(b'flag--(.+?)>(.+?)<',each[5]).group(0)[:-1].decode("utf-8").split(">")[1]
-            steps = self.get_run_steps(url_name, run_num, b)
+            steps = self.get_steps_for_run(url_name, run_num, b)
 
             course_runs.append(CourseRun(full_name, run_num, start_date, status, url_name, steps))
 
         return course_runs
 
-    def get_run_steps(self, name, run, b=None):
+    def get_steps_for_run(self, name, run, b=None):
         if b is None:
             b = login()
 
