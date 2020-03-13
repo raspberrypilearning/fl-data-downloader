@@ -106,13 +106,19 @@ def get_dataset_for_courses(b, courses, dataset):
     Returns a `pandas.DataFrame`.
     """
     first_course = True
-    for course in courses:
-        if first_course:
-            dataset_df = get_dataset_for_course(b, course, dataset)
-            first_course = False
-        else:
-            dataset_df = dataset_df.append(get_dataset_for_course(b, course, dataset), ignore_index=True)
+    dataset_df = None
     
+    for course in courses:
+        try:
+            dataset_for_course_df = get_dataset_for_course(b, course, dataset)
+            if first_course:
+                dataset_df = dataset_for_course_df
+                first_course = False
+            else:
+                dataset_df = dataset_df.append(dataset_for_course_df, ignore_index=True)
+        except DatasetNotFoundForCourse:
+                print("dataset [{}] was not found for course [{}].".format(dataset, course))
+        
     return dataset_df
 
 def download_data(courses, datasets=None, directory="."):

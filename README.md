@@ -24,7 +24,7 @@ cd fl-data-downloader
 pip3 install .
 ```
 
-If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utiltiy.
+If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utility.
 
 ```
 sudo pip3 install .
