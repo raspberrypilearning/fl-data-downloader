@@ -1,8 +1,10 @@
 # FutureLearn Dataset Downloader
 
-A utility for downloading datasets for [FutureLearn](https://futurelearn.com) courses.
+A utility for accessing datasets for [FutureLearn](https://futurelearn.com) courses.
 
-It will download the data for all runs of a courses, combining them together into a single extract.
+The API and download utility will download data for all runs of multiple courses, combining them together into a single dataset. 
+
+It is useful for doing data analysis either in Python using pandas or outside using `csv` files.
 
 ## What you need?
 
@@ -22,7 +24,7 @@ cd fl-data-downloader
 pip3 install .
 ```
 
-If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utiltiy.
+If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utility.
 
 ```
 sudo pip3 install .
@@ -32,6 +34,26 @@ If you are using Windows and you receive a `pip3 is not recognised` error, have 
 
 
 ## Usage
+
+### API
+
+The `fl_data_downloader` uses [pandas](https://pandas.pydata.org/) and returns data as [pandas.DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html) objects. See the [pandas Getting started](https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html) for more information.
+
+To use an API you must call the `login()` function to gain a `b`rowser context which can be passed to `get_` functions e.g.
+
+```python
+from fl_data_downloader import login, get_dataset_for_course
+
+b = login()
+
+dataset_df = get_dataset_for_course(b, course="programming-101", dataset="enrolments")
+
+print(dataset_df)
+```
+
+There are [examples](https://github.com/raspberrypilearning/fl-data-downloader/tree/meta_data/fl_data_downloader/examples) of how to use all the API calls.
+
+### CSV download tool
 
 The `fl-data-dl` command line tool can be used to download data for FutureLearn courses and datasets.
 

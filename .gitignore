@@ -150,6 +150,7 @@ site/
 
 # data files
 *.csv
+*.db
 
 # config file
 .fl-data-dl
