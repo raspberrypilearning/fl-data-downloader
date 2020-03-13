@@ -33,7 +33,7 @@ def fl_data_dl():
     parser.add_argument("-d", "--dataset", nargs='+',  help="The dataset(s) you wish to download data for:\n {}".format(", ".join(DATASETS)))
     parser.add_argument("-o", "--output", help="The output directory where the data files should be written, defaults to the current directory.")
     parser.add_argument("-l", "--login", help="Login and store FutureLearn credentials.", action="store_true")
-    parser.add_argument("-v", "--version", help="Display the version number", action="version", version="fl_data_downloader (0.0.2)")
+    parser.add_argument("-v", "--version", help="Display the version number", action="version", version="fl_data_downloader (0.1.0)")
     args = parser.parse_args()
     
     if args.output:
