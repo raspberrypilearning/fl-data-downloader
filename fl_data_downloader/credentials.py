@@ -24,14 +24,15 @@ def get_credentials():
     return user, pw
 
 def get_new_credentials():
-    print("Set your FutureLearn username and password")
+    print("Enter your FutureLearn username and password")
 
-    user = input("Username :")
-    pw = getpass("Password :")
+    user = input("Username : ")
+    pw = getpass("Password : ")
 
     return user, pw
 
 def store_credentials():
+    print("Storing FutureLearn credentials")
     user, pw = get_new_credentials()
 
     config = configparser.ConfigParser()
