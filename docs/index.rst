@@ -10,9 +10,6 @@ Welcome to fl_data_downloader's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: fl_data_downloader
-  :members:
-
 Indices and tables
 ==================
 
