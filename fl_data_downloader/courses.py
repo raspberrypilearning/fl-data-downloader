@@ -8,9 +8,21 @@ import pandas as pd
 
 def get_courses(b, organisation):
     """
-    Get all the FutureLearn courses for an organisation.
+    Get all the FutureLearn courses for an organisation
+    
+    Returns the data as a `pandas.DataFrame`:
+        + course - the short "name" for the course e.g. "programming-101"
+        + full_name - the full name of the course
 
-    Returns a `pandas.DataFrame`.
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param string organisation:
+        The organisation to get the courses for e.g. "raspberry-pi"
+    
+    :return:
+        The course data in a `pandas.DataFrame`.
+        
     """
     url = "https://www.futurelearn.com/admin/organisations/{}/runs".format(organisation)
     response = _get_futurelearn_page(b, url)
@@ -35,10 +47,22 @@ def get_courses(b, organisation):
 def get_runs(b, organisation):
     """
     Get all the runs for a course for an organisation 
+    
+    Returns the data as a `pandas.DataFrame`:
+        + course - the short "name" for the course e.g. "programming-101"
+        + full_name - the full name of the course
+        + run - the run number
+        + start_date - the date the run started
+        + status - the current status of the run
 
-    If `course` is `None` runs for all courses for the organisation will be returned
-
-    Returns a `pandas.DataFrame`.
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param string organisation:
+        The organisation to get the runs for e.g. "raspberry-pi"
+    
+    :return:
+        The run data in a `pandas.DataFrame`.
     """
     url = "https://www.futurelearn.com/admin/organisations/{}/runs".format(organisation)
     response = _get_futurelearn_page(b, url)
@@ -70,8 +94,27 @@ def get_runs(b, organisation):
 def get_steps_for_run(b, course, run):
     """
     Get the steps for a course run
+    
+    Returns the data as a `pandas.DataFrame`:
+        + course - the short "name" for the course e.g. "programming-101"
+        + run - the run number
+        + step_id - the step id formated as `week.step`
+        + week - the week the step belongs too
+        + step - the number of the step
+        + admin_url - the url to reach the admin page of the step
+        + step_type - the type of step e.g. "article"
 
-    Returns a `pandas.DataFrame`.
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param string course:
+        The online course e.g. "programming-101"
+
+    :param integer run:
+        The number of the specific course run 
+    
+    :return:
+        The step data in a `pandas.DataFrame`.
     """
     print("course_run_steps.{}.{}".format(course, run))
     url = "https://www.futurelearn.com/admin/courses/{}/{}/overview#step-types".format(course, run)
@@ -113,12 +156,32 @@ def get_steps_for_run(b, course, run):
 def get_steps_for_courses(b, organisation, courses=None):
     """
     Get the steps for a list of courses.
+    
+    Returns the data as a `pandas.DataFrame`:
+        + course - the short "name" for the course e.g. "programming-101"
+        + run - the run number
+        + step_id - the step id formated as `week.step`
+        + week - the week the step belongs too
+        + step - the number of the step
+        + admin_url - the url to reach the admin page of the step
+        + step_type - the type of step e.g. "article"
 
-    If `courses` is `None` (default), all courses for the organisation are returned
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param string course:
+        The online course e.g. "programming-101"
 
-    Returns a `pandas.DataFrame`.
+    :param integer run:
+        The number of the specific course run 
+    
+    :return:
+        The step data in a `pandas.DataFrame`.
+
+    .. note::
+        If `courses` is `None` (default), all courses for the organisation are returned
+
     """
-
     # get all the runs 
     runs_df = get_runs(b, organisation)
     steps_df = None

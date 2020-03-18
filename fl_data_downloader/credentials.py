@@ -54,7 +54,7 @@ def login(credentials=None):
         Optional: A list of [user, password] to login.
     
     :return:
-            A browser object required by [get data] methods.
+        A browser object required by [get data] methods.
     """
     if credentials is None:
         user, pw = get_credentials()
