@@ -49,11 +49,25 @@ DATASET_KEYS = {
 
 def get_dataset(b, course, run, dataset):
     """
-    Gets a dataset for a specific run of a course
+    Gets a FutureLearn dataset for a specific run of a course.
 
-    Returns a `pandas.DataFrame`.
+    Information about available datasets can be found at https://futurelearnpartnersupport.zendesk.com/hc/en-us/articles/360035051173-Datasets
+
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param string course:
+        The online course e.g. "programming-101"
+
+    :param integer run:
+        The number of the specific course run 
+
+    :param string dataset:
+        The name of the dataset e.g. "enrolments"
+    
+    :return:
+        The dataset in a `pandas.DataFrame`.
     """
-
     print("{}.{}.{}".format(dataset, course, run))
 
     # get the campaign data file
@@ -78,9 +92,21 @@ def get_dataset(b, course, run, dataset):
     
 def get_dataset_for_course(b, course, dataset):
     """
-    Gets the dataset from all runs of a course
+    Gets a FutureLearn dataset for all runs of a course
 
-    Returns a `pandas.DataFrame`.
+    Information about available datasets can be found at https://futurelearnpartnersupport.zendesk.com/hc/en-us/articles/360035051173-Datasets
+
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param string course:
+        The online course e.g. "programming-101"
+
+    :param string dataset:
+        The name of the dataset e.g. "enrolments"
+    
+    :return:
+        The dataset in a `pandas.DataFrame`.
     """
     run = 1
     while True:
@@ -101,9 +127,21 @@ def get_dataset_for_course(b, course, dataset):
 
 def get_dataset_for_courses(b, courses, dataset):
     """
-    Gets the dataset from all runs of multiple courses
+    Gets a FutureLearn dataset for all runs of multiple courses
 
-    Returns a `pandas.DataFrame`.
+    Information about available datasets can be found at https://futurelearnpartnersupport.zendesk.com/hc/en-us/articles/360035051173-Datasets
+
+    :param Browser b:
+        A browser object returned by the login function.
+    
+    :param List courses:
+        A list of course names e.g. `["programming-101", "embedded-systems"]`
+
+    :param string dataset :
+        The name of the dataset e.g. "enrolments"
+    
+    :return:
+        The dataset in a `pandas.DataFrame`.
     """
     first_course = True
     dataset_df = None
@@ -123,9 +161,18 @@ def get_dataset_for_courses(b, courses, dataset):
 
 def download_data(courses, datasets=None, directory="."):
     """
-    Downloads dataset data for all runs of a course and saves to a CSV file.
+    Downloads dataset data for all runs of a course and saves to a CSV file(s).
 
-    Returns a list of file paths.
+    Information about available datasets can be found at https://futurelearnpartnersupport.zendesk.com/hc/en-us/articles/360035051173-Datasets
+
+    :param List courses:
+        A list of course names e.g. `["programming-101", "embedded-systems"]`
+
+    :param string datasets :
+        The list of dataset names of the dataset e.g. ["enrolments", "step_activity"]. If `None` (the default) all datasets will be downloaded.
+    
+    :return:
+        Returns a list of file paths containing the downloaded data.
     """
     b = login()
     files = []
