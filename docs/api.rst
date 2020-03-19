@@ -1,5 +1,5 @@
-fl_data_downloader
-==================
+fl_data_downloader API
+======================
 
 The `fl_data_downloader` API can be used to gain and manipulate data using Python.
 

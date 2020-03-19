@@ -1,5 +1,5 @@
-CSV downloader
-==============
+fl-data-dl CSV downloader
+=========================
 
 The `fl-data-dl` command line tool can be used to download data for FutureLearn courses and datasets.
 

@@ -49,6 +49,8 @@ To use an API you must call the `login()` function to gain a `b`rowser context w
 
 There are code `examples <https://github.com/raspberrypilearning/fl-data-downloader/tree/master/fl_data_downloader/examples>`_ of how to use all the API calls in the `github repository <https://github.com/raspberrypilearning/fl-data-downloader>`_.
 
+For more information see the `API documentation <https://fl-data-downloader.readthedocs.io/en/latest/api.html>`_.
+
 CSV download tool
 -----------------
 
@@ -91,6 +93,6 @@ e.g. to download all the datasets for all the runs of the `programming-101` cour
 
 When the downloader is run, you will be asked to enter your FutureLearn username and password. 
 
-See the documentation for more details.
+See the `CSV downloader documentation <https://fl-data-downloader.readthedocs.io/en/latest/downloader.html#examples>`_ for more examples.
 
 .. _pandas: https://pandas.pydata.org/
