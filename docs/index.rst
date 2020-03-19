@@ -3,16 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to fl_data_downloader's documentation!
-==============================================
+.. include:: ../README.rst
+
+FutureLearn Data Downloader - fl_data_downloader
+================================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-Indices and tables
-==================
+   api
+   downloader
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

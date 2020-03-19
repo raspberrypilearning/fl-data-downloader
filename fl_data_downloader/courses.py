@@ -102,7 +102,7 @@ def get_steps_for_run(b, course, run):
         + week - the week the step belongs too
         + step - the number of the step
         + admin_url - the url to reach the admin page of the step
-        + step_type - the type of step e.g. "article"
+        + step_type - the type of step e.g. "article" (article, discussion, video-article, quizze, exercise, assignment, assignment_review, assignment_reflection)
 
     :param Browser b:
         A browser object returned by the login function.

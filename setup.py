@@ -9,7 +9,7 @@ elif sys.version_info[0] == 3:
 else:
     raise ValueError('Unrecognized major version of Python')
 
-__name__ = "fl_data_downloader"
+__project__ = "fl_data_downloader"
 __package__ = "fl_data_downloader"
 __version__ = '0.1.0'
 __author__ = "Martin O'Hanlon"
@@ -18,17 +18,18 @@ __author_email__ = 'martin.ohanlon@raspberrypi.org'
 __url__ = 'https://github.com/raspberrypilearning/fl_data_downloader'
 __requires__ = ["MechanicalSoup", "pandas"]
 
-setup(
-    name=__name__,
-    version = __version__,
-    description = __desc__,
-    url = __url__,
-    author = __author__,
-    author_email = __author_email__,
-    packages = [__package__],
-    install_requires = __requires__,
-    entry_points={
-        'console_scripts': [
-        'fl-data-dl = fl_data_downloader:fl_data_dl'
-        ]},
-    zip_safe=False)
+if __name__ == '__main__':
+    setup(
+        name=__project__,
+        version = __version__,
+        description = __desc__,
+        url = __url__,
+        author = __author__,
+        author_email = __author_email__,
+        packages = [__package__],
+        install_requires = __requires__,
+        entry_points={
+            'console_scripts': [
+            'fl-data-dl = fl_data_downloader:fl_data_dl'
+            ]},
+        zip_safe=False)
