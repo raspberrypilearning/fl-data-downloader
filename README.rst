@@ -7,6 +7,8 @@ The API and download utility will download data for all runs of multiple courses
 
 It is useful for doing data analysis either in Python using `pandas`_ or with `csv` files.
 
+The `full documentation <https://fl-data-downloader.readthedocs.io/>`_ describes how to install, its API and the download utility.
+
 What you need?
 --------------
 
