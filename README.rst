@@ -41,13 +41,13 @@ The `fl_data_downloader` returns data as `pandas.DataFrame <https://pandas.pydat
 
 To use an API you must call the `login()` function to gain a `b`rowser context which can be passed to `get_` functions e.g.::
 
-    from fl_data_downloader import login, get_dataset_for_course
+    from fl_data_downloader import FutureLearnData
+            
+    fl = FutureLearnData("raspberry-pi")
 
-    b = login()
+    enrolments_df = fl.get_dataset_for_course(course="programming-101", dataset="enrolments")
 
-    dataset_df = get_dataset_for_course(b, course="programming-101", dataset="enrolments")
-
-    print(dataset_df)
+    print(enrolments_df)
 
 There are code `examples <https://github.com/raspberrypilearning/fl-data-downloader/tree/master/fl_data_downloader/examples>`_ of how to use all the API calls in the `github repository <https://github.com/raspberrypilearning/fl-data-downloader>`_.
 
@@ -66,32 +66,29 @@ Using the `-h` option will display the `fl-data-dl` command usage instructions::
 
 ::
 
-    usage: fl-data-dl [-h] [-d DATASET [DATASET ...]] [-o OUTPUT] [-l]
-                    course [course ...]
+    usage: fl-data-dl [-h] [-d DATASET [DATASET ...]] [-o OUTPUT] [-l] [-v] organisation course [course ...]
 
     FutureLearn Data Downloader
 
     positional arguments:
+    organisation          The organisation you want to download data for.
     course                The course(s) you want to download data for.
 
     optional arguments:
     -h, --help            show this help message and exit
     -d DATASET [DATASET ...], --dataset DATASET [DATASET ...]
-                            The dataset(s) you wish to download data for:
-                            archetype_survey_responses, campaigns, comments,
-                            enrolments, leaving_survey_responses,
-                            peer_review_assignments, peer_review_reviews,
-                            post_course_survey_data, post_course_survey_free_text,
-                            question_response, step_activity, team_members,
-                            video_stats, weekly_sentiment_survey_responses
+                            The dataset(s) you wish to download data for: archetype_survey_responses, campaigns, comments, enrolments,
+                            leaving_survey_responses, peer_review_assignments, peer_review_reviews, post_course_survey_data,
+                            post_course_survey_free_text, question_response, step_activity, team_members, video_stats,
+                            weekly_sentiment_survey_responses
     -o OUTPUT, --output OUTPUT
-                            The output directory where the data files should be
-                            written, defaults to the current directory.
+                            The output directory where the data files should be written, defaults to the current directory.
     -l, --login           Login and store FutureLearn credentials.
+    -v, --version         Display the version number
 
-e.g. to download all the datasets for all the runs of the `programming-101` course::
+e.g. to download all the datasets for all the runs of the `programming-101` course from the `raspberry-pi` organisation::
 
-    fl-data-dl programming-101
+    fl-data-dl raspberry-pi programming-101
 
 When the downloader is run, you will be asked to enter your FutureLearn username and password. 
 

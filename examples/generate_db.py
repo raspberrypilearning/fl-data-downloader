@@ -5,7 +5,7 @@ Generate a SQLite database of all the dataset data from all the courses for an o
 import os
 import sqlite3
 
-from fl_data_downloader import login, get_dataset_for_course, get_courses, DATASETS, DatasetNotFoundForCourse
+from fl_data_downloader import FutureLearnData, AVAILABLE_DATASETS, DatasetNotFoundForCourse
 
 db_file = "all_courses.db"
 
@@ -15,13 +15,14 @@ if os.path.exists(db_file):
 
 conn = sqlite3.connect(db_file)
 
-b = login()
+# create data objects
+fl = FutureLearnData("raspberry-pi")
 
 # get the courses
-courses_df = get_courses(b, raspberry-pi)
+courses_df = fl.get_courses()
 
 # get a list of all the course names
-courses = list(courses_df.index.values)
+courses = list(courses_df["course"].sort_values().to_list())
 
 # for each course download all the datasets and append to tables
 count = 0
@@ -29,11 +30,12 @@ for course in courses:
     count += 1
     print("{} - {} of {}".format(course, count, len(courses)))
 
-    for dataset in DATASETS:
+    for dataset in AVAILABLE_DATASETS:
         print(dataset)
         try:
-            df = get_dataset_for_course(b, course=course, dataset=dataset)
-            df.to_sql(dataset, conn, if_exists="append")
+            df = fl.get_dataset_for_course(course=course, dataset=dataset)
+            if df is not None:
+                df.to_sql(dataset, conn, if_exists="append")
 
         except DatasetNotFoundForCourse:
             print("- dataset not found")
