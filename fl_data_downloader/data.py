@@ -226,7 +226,8 @@ class FutureLearnData:
             print("downloading   - {}_courses".format(self._organisation))
 
             # pull the unique runs and descriptions from the course runs
-            df = self.runs[["course", "full_name"]].drop_duplicates(ignore_index=True)
+            df = self.runs[["course", "full_name"]].drop_duplicates()
+            df.reset_index(drop=True, inplace=True)
             self._cache_manager.save_data(df, self._organisation, "courses")
 
         return df

@@ -3,6 +3,11 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
+0.2.2 - 2020-04-01
+~~~~~~~~~~~~~~~~~~
+
+ * python 3.5 incompatibility fix
+
 0.2.1 - 2020-04-01
 ~~~~~~~~~~~~~~~~~~
 
