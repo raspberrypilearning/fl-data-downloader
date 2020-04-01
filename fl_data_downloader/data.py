@@ -444,7 +444,7 @@ class FutureLearnData:
 
         return expiry
 
-def download_data(organisation, courses, datasets=None, directory="."):
+def download_data(organisation, courses, datasets=None, directory=".", use_cache=True):
     """
     Downloads dataset data for all runs of a course and saves to a CSV file(s).
 
@@ -459,7 +459,7 @@ def download_data(organisation, courses, datasets=None, directory="."):
     :return:
         Returns a list of file paths containing the downloaded data.
     """
-    fl = FutureLearnData(organisation)
+    fl = FutureLearnData(organisation, use_cache=use_cache)
     
     files = []
 
