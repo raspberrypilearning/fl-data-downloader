@@ -22,15 +22,17 @@ To use the dataset downloader utility you will need:
 Install
 -------
 
-Open a command prompt or terminal and enter these commands::
+Open a command prompt or terminal and enter this command::
 
-    git clone https://github.com/raspberrypilearning/fl-data-downloader
-    cd fl-data-downloader
-    pip3 install .
+    pip3 install fl-data-downloader
+
+To upgrade to the latest version use::
+
+    pip3 install fl-data-downloader --upgrade
 
 If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utility::
 
-    sudo pip3 install .
+    sudo pip3 install fl-data-downloader
 
 If you are using Windows and you receive a `pip3 is not recognised` error, have a look at this guide to `Using pip on Windows <https://projects.raspberrypi.org/en/projects/using-pip-on-windows>`_.
 
