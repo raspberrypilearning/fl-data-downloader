@@ -223,6 +223,8 @@ class FutureLearnData:
         expiry = self._calc_cache_expiry("courses", True)
         df = self._cache_manager.get_data(self._organisation, "courses", expiry=expiry)
         if df is None:
+            print("downloading   - {}_courses".format(self._organisation))
+
             # pull the unique runs and descriptions from the course runs
             df = self.runs[["course", "full_name"]].drop_duplicates(ignore_index=True)
             self._cache_manager.save_data(df, self._organisation, "courses")
@@ -246,6 +248,7 @@ class FutureLearnData:
         expiry = self._calc_cache_expiry("runs", True)
         df = self._cache_manager.get_data(self._organisation, "runs", expiry=expiry)
         if df is None:
+            print("downloading   - {}_runs".format(self._organisation))
 
             url = "https://www.futurelearn.com/admin/organisations/{}/runs".format(self._organisation)
             response = self._get_futurelearn_page(url)
@@ -298,7 +301,7 @@ class FutureLearnData:
         df = self._cache_manager.get_data(self._organisation, course, run, "steps-for-run", expiry=expiry)
         
         if df is None:
-            print("{}_{}_{}_run-steps".format(self._organisation, course, run))
+            print("downloading   - {}_{}_{}_steps-for-run".format(self._organisation, course, run))
 
             url = "https://www.futurelearn.com/admin/courses/{}/{}/overview#step-types".format(course, run)
             response = self._get_futurelearn_page(url)
@@ -336,7 +339,7 @@ class FutureLearnData:
 
             df = pd.DataFrame(run_steps, columns=["course", "run", "step_id", "week", "step", "admin_url", "step_type"])
 
-            self._cache_manager.save_data(df, "steps-for-run", course, run)
+            self._cache_manager.save_data(df, self._organisation, course, run, "steps-for-run")
 
         return df
 
