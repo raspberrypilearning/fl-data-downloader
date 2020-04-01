@@ -35,9 +35,16 @@ AVAILABLE_DATASETS = [
     "weekly_sentiment_survey_responses"
 ]
 
-# a course run is inactive and the datasets are no longer downloaded if in 
-# cache after so many weeks 
-COURSE_RUN_INACTIVE_AFTER_WEEKS = 12
+# a course run is inactive after this time from the start date 
+# datasets are no longer downloaded if in cache for inactive courses
+#  12 weeks
+COURSE_RUN_INACTIVE_AFTER = 12 * 7 * 24 * 60 * 60
+
+# after how long does the cache expiry if the course is active
+#  12 hours
+CACHE_EXPIRY_TIME = 12 * 60 *60
+# debug - make cache expire after 1 second
+# CACHE_EXPIRY_TIME = 1
 
 class FutureLearnData:
     """
@@ -66,7 +73,6 @@ class FutureLearnData:
 
         print(enrolments_df)
 
-        
     Information about available datasets can be found at https://futurelearnpartnersupport.zendesk.com/hc/en-us/articles/360035051173-Datasets
 
     :param Browser browser:
@@ -114,11 +120,9 @@ class FutureLearnData:
             The dataset in a `pandas.DataFrame`.
         """
 
-        # the cache expires if its not the enrolments dataset (which is always)
-        # update and the course is not active
-        expires = not (dataset != "enrolments" and not self.get_run_active_status(course, run))
-
-        df = self._cache_manager.get_data(self._organisation, course, run, dataset, expires=expires)
+        expiry = self._calc_cache_expiry(dataset, self.get_run_active_status(course, run))
+        
+        df = self._cache_manager.get_data(self._organisation, course, run, dataset, expiry=expiry)
         if df is None:
 
             print("downloading   - {}_{}_{}_{}".format(self._organisation, course, run, dataset))
@@ -216,10 +220,11 @@ class FutureLearnData:
         :return:
             The course data in a `pandas.DataFrame`.            
         """
-        df = self._cache_manager.get_data(self._organisation, "courses")
+        expiry = self._calc_cache_expiry("courses", True)
+        df = self._cache_manager.get_data(self._organisation, "courses", expiry=expiry)
         if df is None:
             # pull the unique runs and descriptions from the course runs
-            df = self.get_runs[["course", "full_name"]].drop_duplicates(ignore_index=True)
+            df = self.runs[["course", "full_name"]].drop_duplicates(ignore_index=True)
             self._cache_manager.save_data(df, self._organisation, "courses")
 
         return df
@@ -238,7 +243,8 @@ class FutureLearnData:
         :return:
             The run data in a `pandas.DataFrame`.
         """
-        df = self._cache_manager.get_data(self._organisation, "runs")
+        expiry = self._calc_cache_expiry("runs", True)
+        df = self._cache_manager.get_data(self._organisation, "runs", expiry=expiry)
         if df is None:
 
             url = "https://www.futurelearn.com/admin/organisations/{}/runs".format(self._organisation)
@@ -288,8 +294,8 @@ class FutureLearnData:
         :return:
             The step data in a `pandas.DataFrame`.
         """
-        
-        df = self._cache_manager.get_data(self._organisation, course, run, "steps-for-run", expires=self.get_run_active_status(course, run))
+        expiry = self._calc_cache_expiry("steps-for-run", self.get_run_active_status(course, run))
+        df = self._cache_manager.get_data(self._organisation, course, run, "steps-for-run", expiry=expiry)
         
         if df is None:
             print("{}_{}_{}_run-steps".format(self._organisation, course, run))
@@ -413,7 +419,7 @@ class FutureLearnData:
         # calculate the date the run expires
         start_date = run_df.iloc[0]["start_date"]
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        expired_date = start_date + timedelta(weeks=COURSE_RUN_INACTIVE_AFTER_WEEKS)
+        expired_date = start_date + timedelta(seconds=COURSE_RUN_INACTIVE_AFTER)
         
         return datetime.now() < expired_date
 
@@ -427,6 +433,16 @@ class FutureLearnData:
         except LinkNotFoundError:
             print(error)
             raise NeedToLoginException("A mechanicalsoup.LinkNotFoundError was raised. Is your username and password correct? Does this organisation/course/run exist?")
+    
+    def _calc_cache_expiry(self, dataset, active):
+        # the cache expiry is in 12 hours before now (i.e. any cache older than 12 hours will be refreshed)
+        # unless the run is no longer active and its not the enrolments data (which is always refreshed)
+        if (dataset != "enrolments" and not active):
+            expiry = None
+        else:
+            expiry = datetime.now() - timedelta(seconds=CACHE_EXPIRY_TIME)
+
+        return expiry
 
 def download_data(organisation, courses, datasets=None, directory="."):
     """

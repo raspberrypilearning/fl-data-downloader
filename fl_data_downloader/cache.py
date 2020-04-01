@@ -1,12 +1,7 @@
 import pandas as pd
 import os
 import sqlite3
-from time import time
-
-# 12 hours
-CACHE_EXPIRY_TIME = 12 * 60 *60
-# debug - make cache expiry after 1 second
-# CACHE_EXPIRY_TIME = 1
+from datetime import datetime
 
 class CacheManager():
     def __init__(self, cache_directory, use_cache):
@@ -19,6 +14,8 @@ class CacheManager():
             if not os.path.exists(cache_directory):
                 os.makedirs(cache_directory)
 
+            print("using cache   - {}".format(cache_directory))
+
         self.cache_directory = cache_directory
         
     def save_data(self, data_frame, *keys):
@@ -28,7 +25,7 @@ class CacheManager():
             data_frame.to_csv(cache_file_path, index=False)
             print("saving cache  - {}".format(key))
             
-    def get_data(self, *keys, expires=True):
+    def get_data(self, *keys, expiry=None):
         if self.use_cache:
             key = self._create_key(keys)
             cache_file_path = os.path.join(self.cache_directory, key)
@@ -37,9 +34,10 @@ class CacheManager():
             # does the file exist?
             if os.path.isfile(cache_file_path):
                 # does the cache expire?
-                if expires:
-                    # is the cache file less than 12 hours old?
-                    if time() - os.path.getmtime(cache_file_path) < CACHE_EXPIRY_TIME:
+                if expiry is not None:
+                    # is the cached file older than the expiry datetime?
+                    file_age = datetime.fromtimestamp(os.path.getmtime(cache_file_path))
+                    if expiry < file_age:
                         use_cache = True
                 else:
                     use_cache = True
@@ -47,6 +45,6 @@ class CacheManager():
             if use_cache:
                 print("reading cache - {}".format(key))
                 return pd.read_csv(cache_file_path)
-        
+
     def _create_key(self, ids):
         return "_".join(map(str, ids))
