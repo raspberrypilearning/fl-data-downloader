@@ -37,9 +37,11 @@ If you are using Windows and you receive a `pip3 is not recognised` error, have 
 API
 ---
 
-The `fl_data_downloader` returns data as `pandas.DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ objects. See the `pandas Getting started <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_ for more information.
+The `fl_data_downloader` API can be used to gain and manipulate data using Python.
 
-To use an API you must call the `login()` function to gain a `b`rowser context which can be passed to `get_` functions e.g.::
+Data is returned as `pandas.DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ objects. See the `pandas Getting started <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_ for more information.
+
+To use an API create a `FutureLearnData` object passing the organisation and call a `get_` method e.g.::
 
     from fl_data_downloader import FutureLearnData
             

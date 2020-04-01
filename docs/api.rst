@@ -5,8 +5,9 @@ fl_data_downloader API
 
 The `fl_data_downloader` API can be used to gain and manipulate data using Python.
 
-To use an API create a `FutureLearnData` object passing the organisation and 
-call a `get_` method e.g.::
+Data is returned as `pandas.DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ objects. See the `pandas Getting started <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_ for more information.
+
+To use an API create a `FutureLearnData` object passing the organisation and call a `get_` method e.g.::
 
     from fl_data_downloader import FutureLearnData
 
