@@ -15,7 +15,7 @@ __version__ = '0.2.1'
 __author__ = "Martin O'Hanlon"
 __desc__ = 'A utility for downloading data set files for all runs of courses on FutureLearn'
 __author_email__ = 'martin.ohanlon@raspberrypi.org'
-__url__ = 'https://github.com/raspberrypilearning/fl_data_downloader'
+__url__ = 'https://github.com/raspberrypilearning/fl-data-downloader'
 __requires__ = ["MechanicalSoup", "pandas"]
 __keywords__ = [
     "FutureLearn",
