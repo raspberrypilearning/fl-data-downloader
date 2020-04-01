@@ -87,6 +87,7 @@ Using the `-h` option will display the `fl-data-dl` command usage instructions::
                             The output directory where the data files should be written, defaults to the current directory.
     -l, --login           Login and store FutureLearn credentials.
     -v, --version         Display the version number
+    --no-cache            Disable the cache.
 
 e.g. to download all the datasets for all the runs of the `programming-101` course from the `raspberry-pi` organisation::
 

@@ -30,6 +30,7 @@ Using the `-h` option will display the `fl-data-dl` command usage instructions::
                             The output directory where the data files should be written, defaults to the current directory.
     -l, --login           Login and store FutureLearn credentials.
     -v, --version         Display the version number
+    --no-cache            Disable the cache.
 
 When the downloader is run, you will be asked to enter your FutureLearn username and password. 
 
