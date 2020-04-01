@@ -22,32 +22,36 @@ To use the dataset downloader utility you will need:
 Install
 -------
 
-Open a command prompt or terminal and enter these commands::
+Open a command prompt or terminal and enter this command::
 
-    git clone https://github.com/raspberrypilearning/fl-data-downloader
-    cd fl-data-downloader
-    pip3 install .
+    pip3 install fl-data-downloader
+
+To upgrade to the latest version use::
+
+    pip3 install fl-data-downloader --upgrade
 
 If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utility::
 
-    sudo pip3 install .
+    sudo pip3 install fl-data-downloader
 
 If you are using Windows and you receive a `pip3 is not recognised` error, have a look at this guide to `Using pip on Windows <https://projects.raspberrypi.org/en/projects/using-pip-on-windows>`_.
 
 API
 ---
 
-The `fl_data_downloader` returns data as `pandas.DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ objects. See the `pandas Getting started <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_ for more information.
+The `fl_data_downloader` API can be used to gain and manipulate data using Python.
 
-To use an API you must call the `login()` function to gain a `b`rowser context which can be passed to `get_` functions e.g.::
+Data is returned as `pandas.DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ objects. See the `pandas Getting started <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_ for more information.
 
-    from fl_data_downloader import login, get_dataset_for_course
+To use an API create a `FutureLearnData` object passing the organisation and call a `get_` method e.g.::
 
-    b = login()
+    from fl_data_downloader import FutureLearnData
+            
+    fl = FutureLearnData("raspberry-pi")
 
-    dataset_df = get_dataset_for_course(b, course="programming-101", dataset="enrolments")
+    enrolments_df = fl.get_dataset_for_course(course="programming-101", dataset="enrolments")
 
-    print(dataset_df)
+    print(enrolments_df)
 
 There are code `examples <https://github.com/raspberrypilearning/fl-data-downloader/tree/master/fl_data_downloader/examples>`_ of how to use all the API calls in the `github repository <https://github.com/raspberrypilearning/fl-data-downloader>`_.
 
@@ -66,32 +70,30 @@ Using the `-h` option will display the `fl-data-dl` command usage instructions::
 
 ::
 
-    usage: fl-data-dl [-h] [-d DATASET [DATASET ...]] [-o OUTPUT] [-l]
-                    course [course ...]
+    usage: fl-data-dl [-h] [-d DATASET [DATASET ...]] [-o OUTPUT] [-l] [-v] organisation course [course ...]
 
     FutureLearn Data Downloader
 
     positional arguments:
+    organisation          The organisation you want to download data for.
     course                The course(s) you want to download data for.
 
     optional arguments:
     -h, --help            show this help message and exit
     -d DATASET [DATASET ...], --dataset DATASET [DATASET ...]
-                            The dataset(s) you wish to download data for:
-                            archetype_survey_responses, campaigns, comments,
-                            enrolments, leaving_survey_responses,
-                            peer_review_assignments, peer_review_reviews,
-                            post_course_survey_data, post_course_survey_free_text,
-                            question_response, step_activity, team_members,
-                            video_stats, weekly_sentiment_survey_responses
+                            The dataset(s) you wish to download data for: archetype_survey_responses, campaigns, comments, enrolments,
+                            leaving_survey_responses, peer_review_assignments, peer_review_reviews, post_course_survey_data,
+                            post_course_survey_free_text, question_response, step_activity, team_members, video_stats,
+                            weekly_sentiment_survey_responses
     -o OUTPUT, --output OUTPUT
-                            The output directory where the data files should be
-                            written, defaults to the current directory.
+                            The output directory where the data files should be written, defaults to the current directory.
     -l, --login           Login and store FutureLearn credentials.
+    -V, --version         Display the version number
+    --no-cache            Disable the cache.
 
-e.g. to download all the datasets for all the runs of the `programming-101` course::
+e.g. to download all the datasets for all the runs of the `programming-101` course from the `raspberry-pi` organisation::
 
-    fl-data-dl programming-101
+    fl-data-dl raspberry-pi programming-101
 
 When the downloader is run, you will be asked to enter your FutureLearn username and password. 
 

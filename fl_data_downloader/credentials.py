@@ -32,6 +32,9 @@ def get_new_credentials():
     return user, pw
 
 def store_credentials():
+    """
+    Prompts user to enter FutureLearn login details and stores them.
+    """
     print("Storing FutureLearn credentials")
     user, pw = get_new_credentials()
 

@@ -13,4 +13,5 @@ FutureLearn Data Downloader - fl_data_downloader
 
    api
    downloader
+   changelog
 

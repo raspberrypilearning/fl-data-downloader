@@ -6,3 +6,6 @@ class DatasetNotKnownException(Exception):
 
 class DatasetNotFoundForCourse(Exception):
     pass
+
+class CourseRunNotFound(Exception):
+    pass
