@@ -8,7 +8,7 @@ class CacheManager():
         self.use_cache = use_cache
         if self.use_cache:
             if cache_directory is None:
-                cache_directory = os.path.join(os.path.expanduser("~"), "fl-data-dl-cache")
+                cache_directory = os.path.join(os.path.expanduser("~"), ".fl-data-dl-cache")
 
             # create the directory if it doesn't exist
             if not os.path.exists(cache_directory):
