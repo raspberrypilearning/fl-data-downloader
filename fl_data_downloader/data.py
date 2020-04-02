@@ -73,6 +73,11 @@ class FutureLearnData:
 
         print(enrolments_df)
 
+    A list of available datasets can be obtained using::
+    
+        from fl_data_downloader import AVAILABLE_DATASETS
+        print(AVAILABLE_DATASETS)
+
     Information about available datasets can be found at https://futurelearnpartnersupport.zendesk.com/hc/en-us/articles/360035051173-Datasets
 
     :param Browser browser:
@@ -187,7 +192,7 @@ class FutureLearnData:
         :param List courses:
             A list of course names e.g. `["programming-101", "embedded-systems"]`
 
-        :param string dataset :
+        :param string dataset:
             The name of the dataset e.g. "enrolments"
         
         :return:

@@ -16,7 +16,6 @@ To use the dataset downloader utility you will need:
 
 + Access to the internet
 + `Python 3 <https://www.python.org/downloads/>`_ installed on your computer (be sure to click *Add Python to the PATH* when installing on Windows)
-+ `git <https://git-scm.com/downloads>`_ installed on your computer
 + a FutureLearn account which can access your courses dataset files
 
 Install
@@ -43,7 +42,7 @@ The `fl_data_downloader` API can be used to gain and manipulate data using Pytho
 
 Data is returned as `pandas.DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ objects. See the `pandas Getting started <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_ for more information.
 
-To use an API create a `FutureLearnData` object passing the organisation and call a `get_` method e.g.::
+To use the API create a `FutureLearnData` object passing the organisation and call a `get_` method e.g.::
 
     from fl_data_downloader import FutureLearnData
             
