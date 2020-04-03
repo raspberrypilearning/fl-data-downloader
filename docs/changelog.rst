@@ -3,6 +3,12 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
+0.2.3 - 2020-04-03
+~~~~~~~~~~~~~~~~~~
+
+ * updated default cache directory
+ * doc updates
+
 0.2.2 - 2020-04-01
 ~~~~~~~~~~~~~~~~~~
 

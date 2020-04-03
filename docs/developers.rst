@@ -31,6 +31,11 @@ Clone repo and install for dev::
 Deploy
 ------
 
+Update version numbers::
+    setup.py
+    fl_data_downloader/__init__.py
+    docs/changelog.rst
+
 Build for deployment::
 
     python setup.py sdist

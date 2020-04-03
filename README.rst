@@ -29,7 +29,7 @@ To upgrade to the latest version use::
 
     pip3 install fl-data-downloader --upgrade
 
-If you are installing on linux you may need to use `sudo` when running `pip3` in order to install the utility::
+If you are installing on macOS or linux you may need to use `sudo` when running `pip3` in order to install the utility::
 
     sudo pip3 install fl-data-downloader
 
