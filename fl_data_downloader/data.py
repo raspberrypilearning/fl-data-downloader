@@ -92,7 +92,7 @@ class FutureLearnData:
 
     :param string cache_directory:
         The directory to use for storing cache files. If `None` (default)
-        the directory ~/fl-data-dl-cache
+        the directory ~/.fl-data-dl-cache
     """
     def __init__(self, organisation, browser=None, use_cache=True, cache_directory=None):
         
