@@ -17,23 +17,29 @@ from .exceptions import (
 )
 from .cache import CacheManager
 
-DATASET_URL = "https://www.futurelearn.com/admin/courses/{}/{}/stats-dashboard/data/{}"
-AVAILABLE_DATASETS = [
-    "archetype_survey_responses",
-    "campaigns",
-    "comments",
-    "enrolments",
-    "leaving_survey_responses",
-    "peer_review_assignments",
-    "peer_review_reviews",
-    "post_course_survey_data",
-    "post_course_survey_free_text",
-    "question_response",
-    "step_activity",
-    "team_members",
-    "video_stats",
-    "weekly_sentiment_survey_responses"
-]
+STATS_URL = "https://www.futurelearn.com/admin/courses/{course}/{run}/stats-dashboard/data/{dataset}"
+COUNTRIES_DEMOGRAPHICS_URL = "https://www.futurelearn.com/admin/courses/{course}/{run}/demographics/countries/{dataset}-dataset"
+
+DATASET_URLS = {
+    "archetype_survey_responses": STATS_URL,
+    "campaigns": STATS_URL,
+    "comments": STATS_URL,
+    "countries": COUNTRIES_DEMOGRAPHICS_URL,
+    "country-subdivisions": COUNTRIES_DEMOGRAPHICS_URL,
+    "enrolments": STATS_URL,
+    "leaving_survey_responses": STATS_URL,
+    "peer_review_assignments": STATS_URL,
+    "peer_review_reviews": STATS_URL,
+    "post_course_survey_data": STATS_URL,
+    "post_course_survey_free_text": STATS_URL,
+    "question_response": STATS_URL,
+    "step_activity": STATS_URL,
+    "team_members": STATS_URL,
+    "video_stats": STATS_URL,
+    "weekly_sentiment_survey_responses": STATS_URL
+}
+
+AVAILABLE_DATASETS = DATASET_URLS.keys()
 
 # a course run is inactive after this time from the start date 
 # datasets are no longer downloaded if in cache for inactive courses
@@ -133,7 +139,7 @@ class FutureLearnData:
             print("downloading   - {}_{}_{}_{}".format(self._organisation, course, run, dataset))
 
             # get the campaign data file
-            url = DATASET_URL.format(course, run, dataset)
+            url = DATASET_URLS[dataset].format(course=course, run=run, dataset=dataset)
             data = self._browser.open(url)
             data = data.content.decode("utf-8").strip()
 
@@ -493,7 +499,7 @@ def download_data(organisation, courses, datasets=None, directory=".", use_cache
                
                 try:
                     dataset_df = fl.get_dataset_for_course(course, dataset)
-                    dataset_df.to_csv(file_path, mode="a", header=first_course)
+                    dataset_df.to_csv(file_path, mode="a", header=first_course, index=False)
                     files.append(file_path)
 
                     first_course = False

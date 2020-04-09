@@ -3,6 +3,12 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
+0.3.0 - 2020-04-09
+~~~~~~~~~~~~~~~~~~
+
+ * countries country-subdivisions
+ * removed index from CSV files created by fl-data-dl
+
 0.2.3 - 2020-04-03
 ~~~~~~~~~~~~~~~~~~
 
