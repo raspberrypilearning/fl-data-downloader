@@ -26,7 +26,7 @@ def fl_data_dl():
     parser.add_argument("-d", "--dataset", nargs='+',  help="The dataset(s) you wish to download data for:\n {}".format(", ".join(AVAILABLE_DATASETS)))
     parser.add_argument("-o", "--output", help="The output directory where the data files should be written, defaults to the current directory.")
     parser.add_argument("-l", "--login", help="Login and store FutureLearn credentials.", action="store_true")
-    parser.add_argument("-V", "--version", help="Display the version number.", action="version", version="fl_data_downloader (0.3.0)")
+    parser.add_argument("-V", "--version", help="Display the version number.", action="version", version="fl_data_downloader (0.4.0)")
     parser.add_argument("--no-cache", help="Disable the cache.", action="store_true")
     args = parser.parse_args()
     

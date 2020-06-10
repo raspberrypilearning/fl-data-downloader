@@ -3,6 +3,11 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
+0.4.0 - tbc
+~~~~~~~~~~~~~~~~~~
+
+ * added max_retries to allow downloads to be "retried" if they fail.
+
 0.3.0 - 2020-04-09
 ~~~~~~~~~~~~~~~~~~
 

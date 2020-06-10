@@ -5,6 +5,8 @@ import re
 import pandas as pd
 from mechanicalsoup import LinkNotFoundError
 
+from requests.exceptions import ConnectionError
+
 from datetime import datetime, timedelta, date
 from io import StringIO
 
@@ -13,7 +15,8 @@ from .exceptions import (
     NeedToLoginException, 
     DatasetNotKnownException, 
     DatasetNotFoundForCourse, 
-    CourseRunNotFound
+    CourseRunNotFound,
+    ConnectionErrorMaxRetriesExceeded
 )
 from .cache import CacheManager
 
@@ -99,13 +102,17 @@ class FutureLearnData:
     :param string cache_directory:
         The directory to use for storing cache files. If `None` (default)
         the directory ~/.fl-data-dl-cache
+
+    :param integer max_retries:
+        The maximum number of times to try and download a dataset 
     """
-    def __init__(self, organisation, browser=None, use_cache=True, cache_directory=None):
+    def __init__(self, organisation, browser=None, use_cache=True, cache_directory=None, max_retries=3):
         
         self._organisation = organisation
         self._cache_manager = CacheManager(cache_directory, use_cache)
         self._cache_directory = cache_directory
         self._use_cache = use_cache
+        self._max_retries = max_retries
 
         if browser is None:
             browser = login()
@@ -113,6 +120,9 @@ class FutureLearnData:
 
         # a property which will hold all the runs for the organisation
         self._runs = None
+
+        # the number of failed requests in a row
+        self._failed_requests = 0
 
     def get_dataset(self, course, run, dataset):
         """
@@ -140,7 +150,19 @@ class FutureLearnData:
 
             # get the campaign data file
             url = DATASET_URLS[dataset].format(course=course, run=run, dataset=dataset)
-            data = self._browser.open(url)
+            downloaded = False
+            while not downloaded:
+                try:
+                    data = self._browser.open(url)
+                    self._failed_requests = 0
+                    downloaded = True
+                except ConnectionError as e:
+                    self._failed_requests += 1
+                    if self._failed_requests <= self._max_retries:
+                        print("error - ConnectionError occurred - {}. Retrying.".format(e))
+                    else:
+                        raise ConnectionErrorMaxRetriesExceeded("ConnectionError occurred. Max number of retries exceeded.")
+
             data = data.content.decode("utf-8").strip()
 
             # has a html page been returned? if so, you need to login
