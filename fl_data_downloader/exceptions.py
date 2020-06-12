@@ -9,3 +9,6 @@ class DatasetNotFoundForCourse(Exception):
 
 class CourseRunNotFound(Exception):
     pass
+
+class ConnectionErrorMaxRetriesExceeded(Exception):
+    pass

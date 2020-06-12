@@ -32,6 +32,7 @@ Deploy
 ------
 
 Update version numbers::
+
     setup.py
     fl_data_downloader/__init__.py
     docs/changelog.rst
