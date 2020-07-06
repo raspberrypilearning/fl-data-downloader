@@ -9,6 +9,7 @@ from requests.exceptions import ConnectionError
 
 from datetime import datetime, timedelta, date
 from io import StringIO
+from time import sleep
 
 from .credentials import login
 from .exceptions import (
@@ -54,6 +55,9 @@ COURSE_RUN_INACTIVE_AFTER = 12 * 7 * 24 * 60 * 60
 CACHE_EXPIRY_TIME = 12 * 60 *60
 # debug - make cache expire after 1 second
 # CACHE_EXPIRY_TIME = 1
+
+# the time to wait after a ConnectionError before retrying
+RETRY_TIME = 30
 
 class FutureLearnData:
     """
@@ -159,7 +163,8 @@ class FutureLearnData:
                 except ConnectionError as e:
                     self._failed_requests += 1
                     if self._failed_requests <= self._max_retries:
-                        print("error - ConnectionError occurred - {}. Retrying.".format(e))
+                        print("error - ConnectionError occurred - {}. Retrying in {} secs.".format(e, RETRY_TIME))
+                        sleep(RETRY_TIME)
                     else:
                         raise ConnectionErrorMaxRetriesExceeded("ConnectionError occurred. Max number of retries exceeded.")
 
