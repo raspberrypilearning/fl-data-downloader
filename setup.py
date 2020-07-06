@@ -11,7 +11,7 @@ else:
 
 __project__ = "fl_data_downloader"
 __package__ = "fl_data_downloader"
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 __author__ = "Martin O'Hanlon"
 __desc__ = 'A utility for downloading data set files for all runs of courses on FutureLearn'
 __author_email__ = 'martin.ohanlon@raspberrypi.org'
