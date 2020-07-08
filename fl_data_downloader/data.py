@@ -150,12 +150,11 @@ class FutureLearnData:
         df = self._cache_manager.get_data(self._organisation, course, run, dataset, expiry=expiry)
         if df is None:
 
-            print("downloading   - {}_{}_{}_{}".format(self._organisation, course, run, dataset))
-
             # get the campaign data file
             url = DATASET_URLS[dataset].format(course=course, run=run, dataset=dataset)
             downloaded = False
             while not downloaded:
+                print("downloading   - {}_{}_{}_{}".format(self._organisation, course, run, dataset))
                 try:
                     data = self._browser.open(url)
                     self._failed_requests = 0
