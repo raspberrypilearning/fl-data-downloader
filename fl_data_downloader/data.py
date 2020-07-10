@@ -9,6 +9,7 @@ from requests.exceptions import ConnectionError
 
 from datetime import datetime, timedelta, date
 from io import StringIO
+from time import sleep
 
 from .credentials import login
 from .exceptions import (
@@ -54,6 +55,9 @@ COURSE_RUN_INACTIVE_AFTER = 12 * 7 * 24 * 60 * 60
 CACHE_EXPIRY_TIME = 12 * 60 *60
 # debug - make cache expire after 1 second
 # CACHE_EXPIRY_TIME = 1
+
+# the time to wait after a ConnectionError before retrying
+RETRY_TIME = 30
 
 class FutureLearnData:
     """
@@ -146,20 +150,20 @@ class FutureLearnData:
         df = self._cache_manager.get_data(self._organisation, course, run, dataset, expiry=expiry)
         if df is None:
 
-            print("downloading   - {}_{}_{}_{}".format(self._organisation, course, run, dataset))
-
             # get the campaign data file
             url = DATASET_URLS[dataset].format(course=course, run=run, dataset=dataset)
             downloaded = False
             while not downloaded:
+                print("downloading   - {}_{}_{}_{}".format(self._organisation, course, run, dataset))
                 try:
                     data = self._browser.open(url)
                     self._failed_requests = 0
                     downloaded = True
                 except ConnectionError as e:
                     self._failed_requests += 1
-                    if self._failed_requests <= self._max_retries:
-                        print("error - ConnectionError occurred - {}. Retrying.".format(e))
+                    if self._failed_requests < self._max_retries:
+                        print("error - ConnectionError occurred - {}. Retrying in {} secs.".format(e, RETRY_TIME))
+                        sleep(RETRY_TIME)
                     else:
                         raise ConnectionErrorMaxRetriesExceeded("ConnectionError occurred. Max number of retries exceeded.")
 
@@ -496,7 +500,7 @@ def download_data(organisation, courses, datasets=None, directory=".", use_cache
     :return:
         Returns a list of file paths containing the downloaded data.
     """
-    fl = FutureLearnData(organisation, use_cache=use_cache)
+    fl = FutureLearnData(organisation, use_cache=use_cache, max_retries=1)
     
     files = []
 
