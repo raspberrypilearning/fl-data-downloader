@@ -3,7 +3,7 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
-0.4.1 - ?
+0.4.1 - 2020-07-10
 ~~~~~~~~~~~~~~~~~~
 
  * added 30 seconds delay after a connection error before retrying

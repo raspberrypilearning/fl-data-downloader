@@ -161,7 +161,7 @@ class FutureLearnData:
                     downloaded = True
                 except ConnectionError as e:
                     self._failed_requests += 1
-                    if self._failed_requests <= self._max_retries:
+                    if self._failed_requests < self._max_retries:
                         print("error - ConnectionError occurred - {}. Retrying in {} secs.".format(e, RETRY_TIME))
                         sleep(RETRY_TIME)
                     else:
@@ -500,7 +500,7 @@ def download_data(organisation, courses, datasets=None, directory=".", use_cache
     :return:
         Returns a list of file paths containing the downloaded data.
     """
-    fl = FutureLearnData(organisation, use_cache=use_cache)
+    fl = FutureLearnData(organisation, use_cache=use_cache, max_retries=1)
     
     files = []
 
