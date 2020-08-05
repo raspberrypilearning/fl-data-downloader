@@ -289,9 +289,7 @@ class FutureLearnData:
             print("downloading   - {}_runs".format(self._organisation))
 
             url = "https://www.futurelearn.com/admin/organisations/{}/runs".format(self._organisation)
-            print(url)
             response = self._get_futurelearn_page(url)
-            print(response)
             form = self._browser.select_form('form[class="m-table-filter__checkboxes"]')
 
             course_runs = []
