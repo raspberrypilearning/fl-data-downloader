@@ -465,16 +465,19 @@ class FutureLearnData:
         return datetime.now() < expired_date
 
     def _get_futurelearn_page(self, url):
+        # open the url
         try:
             response = self._browser.open(url)
-            # select the sign out form, if it cant be its because they need to sign in
-            form = self._browser.select_form('form[class="m-admin-bar__sign-out-form"]')
-            return response
-            
-        except LinkNotFoundError:
+        except LinkNotFoundError as error:
             print(error)
-            raise NeedToLoginException("A mechanicalsoup.LinkNotFoundError was raised. Is your username and password correct? Does this organisation/course/run exist?")
-    
+            raise NeedToLoginException("A mechanicalsoup.LinkNotFoundError was raised for URL {}. Does this organisation/course/run exist?".format(url))
+
+        # does the form contain a link to sign in? if so..  They need to sign in
+        if "https://www.futurelearn.com/sign-in" in response.text:
+            raise NeedToLoginException("Failed to login to FutureLearn. Is your username and password correct?")
+        
+        return response
+
     def _calc_cache_expiry(self, dataset, active):
         # the cache expiry is in 12 hours before now (i.e. any cache older than 12 hours will be refreshed)
         # unless the run is no longer active and its not the enrolments data (which is always refreshed)

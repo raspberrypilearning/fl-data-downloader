@@ -3,6 +3,11 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
+0.4.2 - 2020-08-05
+~~~~~~~~~~~~~~~~~~
+
+ * resolve issue affecting all downloads after the FutureLearn website changed
+
 0.4.1 - 2020-07-10
 ~~~~~~~~~~~~~~~~~~
 
