@@ -3,6 +3,11 @@ Change log
 
 .. currentmodule:: fl_data_downloader
 
+0.4.3 - 2020-09-01
+~~~~~~~~~~~~~~~~~~
+
+ * get_dataset_for_course assumed all run numbers were sequential which resulted in datasets not being downloaded when they weren't!
+
 0.4.2 - 2020-08-05
 ~~~~~~~~~~~~~~~~~~
 
