@@ -201,19 +201,21 @@ class FutureLearnData:
         runs = runs_df[runs_df["course"] == course]["run"].sort_values().to_list()
 
         df = None
-        first_run = True
+        dataset_found = False
         for run in runs:
             try:
-                if first_run:
+                if not dataset_found:
                     df = self.get_dataset(course, run, dataset)
-                    first_run = False
+                    dataset_found = True
                 else:
                     df = df.append(self.get_dataset(course, run, dataset), ignore_index=True)
 
             except LinkNotFoundError:
-                if first_run:
-                    raise DatasetNotFoundForCourse
-                break
+                pass
+
+        # if no datasets were found for any course run raise an error
+        if not dataset_found:
+            raise DatasetNotFoundForCourse
 
         return df
 
